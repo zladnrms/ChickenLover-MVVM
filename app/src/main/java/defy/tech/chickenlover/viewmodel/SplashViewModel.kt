@@ -27,7 +27,6 @@ class SplashViewModel(application: Application) : DisposableAndroidViewModel(app
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe{ user->
                 user?.let {
-                    Log.d("SplashViewModel 45★", "guest ID : ${user.guest_id} , hashedvalue : ${user.hashed_value}")
                     user.guest_id?.let { guestId->
                         loginAsGuest("mobile", user.hashed_value)
                     } ?: user.name?.let {

@@ -2,6 +2,7 @@ package defy.tech.chickenlover.viewmodel
 
 import android.app.Application
 import android.util.Log
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import defy.tech.chickenlover.model.UserRepository
 import defy.tech.chickenlover.model.data.ArticleCommentItem
@@ -28,6 +29,8 @@ class ArticleViewModel(application: Application) : DisposableAndroidViewModel(ap
     var articleListItem = MutableLiveData<ArticleListItem>() // List로부터 받아온
     var articleItem = MutableLiveData<ArticleItem>()
     val articleCommentList = MutableLiveData<ArrayList<ArticleCommentItem>>().apply { value = ArrayList() }
+
+    var comment = ObservableField<String>("")
 
     fun getArticleInfo() {
         articleListItem.value?.let {
@@ -63,7 +66,6 @@ class ArticleViewModel(application: Application) : DisposableAndroidViewModel(ap
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { }
                 .subscribe { response ->
-
                     if (response.result.equals("success")) {
                         response.result_array?.let {
                             for (item in it) {
@@ -84,21 +86,25 @@ class ArticleViewModel(application: Application) : DisposableAndroidViewModel(ap
         }
     }
 
-    fun writeBoardComment(content: String) {
-        articleItem.value?.let {
-            addDisposable(repository.getUserInfo().toSingle()
-                .flatMap { user ->
-                    api.writeBoardComment(type, it._id, user.name, content)
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess {
-                }
-                .subscribe { response ->
-                    if (response.result.equals("success")) {
-                        getArticleComment()
+    fun writeBoardComment() {
+        if(!comment.get()?.trim().equals("")) {
+            articleItem.value?.let {
+                addDisposable(repository.getUserInfo().toSingle()
+                    .flatMap { user ->
+                        api.writeBoardComment(type, it._id, user.name, comment.get())
                     }
-                })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { response ->
+                        if (response.result.equals("success")) {
+                            getArticleComment()
+                        }
+                    })
+            }
         }
+    }
+
+    fun onCommentTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+        comment.set(s.toString())
     }
 }

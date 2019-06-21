@@ -89,12 +89,13 @@
                 app:layout_constraintTop_toBottomOf="@id/layout_search"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/btn_id"
+                app:layout_constraintBottom_toTopOf="@id/btn_select"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_in_card"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="8dp">
@@ -151,7 +152,7 @@
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_id"
+                android:id="@+id/btn_select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
@@ -160,6 +161,7 @@
                 android:layout_marginTop="27dp"
                 style="@style/Widget.MaterialComponents.Button"
                 app:cornerRadius="5dp"
+                android:onClick="@{()->viewModel.getChickenInfo()}"
                 app:layout_constraintTop_toBottomOf="@id/card_chicken_info"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
