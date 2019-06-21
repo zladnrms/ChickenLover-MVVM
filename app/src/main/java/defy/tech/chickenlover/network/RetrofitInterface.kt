@@ -76,7 +76,7 @@ interface RetrofitInterface {
     /* Of Board */
     @FormUrlEncoded
     @POST("/chickenlover/mobile/board/article/get_board_article_list.php")
-    fun getBoardArticleList(@Field("type") type: String, @Field("index") index: Int, @Field("limit") limit: Int): Single<BoardArticleListResponse>
+    fun getBoardArticleList(@Field("type") type: String?, @Field("index") index: Int, @Field("limit") limit: Int): Single<BoardArticleListResponse>
 
     @FormUrlEncoded
     @POST("/chickenlover/mobile/board/article/get_board_article.php")

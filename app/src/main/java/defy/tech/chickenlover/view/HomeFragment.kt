@@ -91,6 +91,7 @@ class HomeFragment : Fragment() {
             firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)*/
         }
 
+        setSpinner()
     }
 
     private fun startFadeInAni() {
@@ -127,6 +128,17 @@ class HomeFragment : Fragment() {
         for (item in type_array) {
             val typeView = TypeView(context as MainActivity, item)
             layout_chicken_type.addView(typeView)
+        }
+    }
+
+    private fun setSpinner() {
+        spinner_brand.setItems(viewModel.chicken_brands)
+        spinner_brand.setOnItemSelectedListener { view, position, id, item ->
+            viewModel.selectBrand(item.toString())
+        }
+        spinner_type.setItems(viewModel.chicken_types)
+        spinner_type.setOnItemSelectedListener { view, position, id, item ->
+            viewModel.selectType(item.toString())
         }
     }
 

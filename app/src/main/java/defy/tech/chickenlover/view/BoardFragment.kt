@@ -62,6 +62,15 @@ class BoardFragment : Fragment() {
         boardViewModel.setRecyclerViewScrollListener(articleList)
 
         boardViewModel.getArticleList()
+
+        setSpinner()
+    }
+
+    private fun setSpinner() {
+        spinner_caterogy.setItems(boardViewModel.board_types)
+        spinner_caterogy.setOnItemSelectedListener { view, position, id, item ->
+            boardViewModel.selectType(item.toString())
+        }
     }
 
     private fun openWriteActivity() {

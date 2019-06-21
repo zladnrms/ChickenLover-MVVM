@@ -17,14 +17,22 @@ class BoardViewModel : DisposableViewModel() {
         RetrofitInterface.create()
     }
 
-    private var type = "free"
     private val limit = 15
     private var index = 0
+
+    val board_types = listOf("자유게시판","실시간정보")
+
+    private val _selected_type = MutableLiveData<String>().apply { value = "free" }
+    val selected_type: LiveData<String> get() = _selected_type
 
     private val _navigateToActivityCall = SingleLiveEvent<Boolean>()
     val navigateToActivityCall: LiveData<Boolean> get() = _navigateToActivityCall
 
     val articleList = MutableLiveData<ArrayList<ArticleListItem>>().apply { value = ArrayList() }
+
+    fun selectType(type: String) {
+        _selected_type.value = type
+    }
 
     fun openWriteActivity() {
         Log.d("openWriteActivity", "called")
@@ -32,6 +40,15 @@ class BoardViewModel : DisposableViewModel() {
     }
 
     fun getArticleList() {
+
+        var type = selected_type.value
+
+        if(type.equals("자유게시판"))
+            type = "free"
+
+        if(type.equals("실시간정보"))
+            type = "info"
+
         addDisposable(api.getBoardArticleList(type, index, limit)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())

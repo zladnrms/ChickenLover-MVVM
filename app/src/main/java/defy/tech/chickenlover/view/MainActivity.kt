@@ -98,7 +98,7 @@ class MainActivity : AppCompatActivity() {
             selectPaths.let {
                 /*for ((index, item) in it.withIndex()) {
                     val bitmap = presenter.imgPathToBitmap(item)
-                    val data = FileUploadData(index, presenter.getFileName(item, true), item, bitmap)
+                    val data = UploadImageData(index, presenter.getFileName(item, true), item, bitmap)
                     adapter.add(data)
                     adapter.refresh()
                 }*/

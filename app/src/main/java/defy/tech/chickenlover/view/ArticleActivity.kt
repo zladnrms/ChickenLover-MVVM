@@ -29,16 +29,16 @@ class ArticleActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        toolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left_black_24dp)
+        toolbar.setNavigationOnClickListener { v -> finish() }
+
         articleViewModel = ViewModelProviders.of(this).get(ArticleViewModel::class.java)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_article)
         binding.viewModel = articleViewModel
         binding.lifecycleOwner = this
 
-        toolbar.setNavigationIcon(R.drawable.ic_keyboard_arrow_left_black_24dp)
-        toolbar.setNavigationOnClickListener { v -> finish() }
-
-        articleCommentListAdapter = ArticleCommentListAdapter { articleCommentItem ->
+        articleCommentListAdapter = ArticleCommentListAdapter { item ->
 
         }
         articleCommentList.apply {
@@ -56,6 +56,7 @@ class ArticleActivity : AppCompatActivity() {
         articleViewModel.articleCommentList.observe(this, Observer {
             articleCommentListAdapter.setList(it)
         })
+
         setDataFromIntent()
     }
 
