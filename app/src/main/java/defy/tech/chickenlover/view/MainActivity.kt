@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.werb.pickphotoview.extensions.string
@@ -25,6 +25,11 @@ class MainActivity : AppCompatActivity() {
                 addToBackStack(null)
                 commit()
             }
+        }
+
+        layout_search.setOnClickListener {
+            //val intent = Intent(activity, SearchChickenInfoActivity::class.java)
+            //startActivity(intent)
         }
 
         bottom_navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
@@ -71,6 +76,10 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
         toolbar_title.text = title
+        if(title.equals("home"))
+            layout_search.visibility = View.VISIBLE
+        else
+            layout_search.visibility = View.GONE
     }
 
     override fun onBackPressed() {

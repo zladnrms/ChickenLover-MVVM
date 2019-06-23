@@ -28,6 +28,7 @@
     <string name="board_category_info_type">info</string>
     <string name="board_category_free_type">free</string>
     <string name="item_article_comment_amount">[%s]</string>
+    <string name="header_recent_review">최신 치킨 리뷰</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
