@@ -1,27 +1,24 @@
 package defy.tech.chickenlover.view
 
 import android.content.Context
-import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.analytics.FirebaseAnalytics
 
 import defy.tech.chickenlover.R
 import defy.tech.chickenlover.adapter.BrandListAdapter
 import defy.tech.chickenlover.adapter.RecentReviewListAdapter
+import defy.tech.chickenlover.adapter.deco.GridSpacingItemDecoration
 import defy.tech.chickenlover.databinding.HomeFragmentBinding
-import defy.tech.chickenlover.network.data.RandomChickenResponse
-import defy.tech.chickenlover.view.custom.TypeView
 import defy.tech.chickenlover.viewmodel.HomeViewModel
 import kotlinx.android.synthetic.main.home_fragment.*
-import org.json.JSONObject
 
 class HomeFragment : Fragment() {
 
@@ -30,6 +27,10 @@ class HomeFragment : Fragment() {
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var brandListAdapter: BrandListAdapter
     private lateinit var reviewListAdapter: RecentReviewListAdapter
+
+    private val spanCount = 3
+    private val spacing = 5
+    private val includeEdge = true
 
     companion object {
         fun newInstance() = HomeFragment()
@@ -62,26 +63,43 @@ class HomeFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
+        val mGridLayoutManager = GridLayoutManager(activity, 3)
         brandListAdapter = BrandListAdapter { item ->
             //openArticleActivity(articleItem)
         }
         brandList.apply {
-            adapter = brandListAdapter
+            this.layoutManager = mGridLayoutManager
             hasFixedSize()
+            this.addItemDecoration(GridSpacingItemDecoration(spanCount, spacing, includeEdge))
+            adapter = brandListAdapter
         }
 
         reviewListAdapter = RecentReviewListAdapter { item ->
             //openArticleActivity(articleItem)
         }
         recentReviewList.apply {
-            adapter = reviewListAdapter
             hasFixedSize()
+            adapter = reviewListAdapter
         }
+
+        viewModel.brandList.observe(this, Observer {
+            brandListAdapter.setList(it)
+        })
+
+        displayBrandList()
+    }
+
+    private fun displayBrandList() {
+        viewModel.getBrandList()
     }
 
     override fun onPause() {
         super.onPause()
-
         activity?.overridePendingTransition(0, 0)
+    }
+
+    override fun onResume() {
+        activity?.overridePendingTransition(0,0)
+        super.onResume()
     }
 }

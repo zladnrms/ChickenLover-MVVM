@@ -6,7 +6,7 @@
     <data>
         <import type="android.view.View"/>
         <variable name="item"
-                  type="defy.tech.chickenlover.model.data.UploadImageData"/>
+                  type="defy.tech.chickenlover.model.data.UploadImageItem"/>
     </data>
 
     <FrameLayout

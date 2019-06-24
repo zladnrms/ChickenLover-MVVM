@@ -14,7 +14,7 @@ import com.werb.pickphotoview.PickPhotoView
 import com.werb.pickphotoview.util.PickConfig
 import defy.tech.chickenlover.R
 import defy.tech.chickenlover.adapter.WriteImageListAdapter
-import defy.tech.chickenlover.model.data.UploadImageData
+import defy.tech.chickenlover.model.data.UploadImageItem
 import defy.tech.chickenlover.viewmodel.WriteViewModel
 import kotlinx.android.synthetic.main.activity_write.*
 import permissions.dispatcher.*
@@ -98,7 +98,7 @@ class WriteActivity : AppCompatActivity() {
 
     private fun addImageItemToList(index: Int, item: String) {
         val bitmap = writeViewModel.imgPathToBitmap(item)
-        val data = UploadImageData(index, writeViewModel.getFileName(item, true), item, bitmap)
+        val data = UploadImageItem(index, writeViewModel.getFileName(item, true), item, bitmap)
         writeViewModel.addItem(data)
     }
 
@@ -138,5 +138,15 @@ class WriteActivity : AppCompatActivity() {
         fun starterIntent(context: Context): Intent {
             return Intent(context, WriteActivity::class.java)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
+
+    override fun onResume() {
+        overridePendingTransition(0,0)
+        super.onResume()
     }
 }

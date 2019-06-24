@@ -4,7 +4,9 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import defy.tech.chickenlover.model.UserRepository
+import defy.tech.chickenlover.model.VersionInfoRepository
 import defy.tech.chickenlover.model.user.User
+import defy.tech.chickenlover.model.user.VersionInfo
 import defy.tech.chickenlover.network.RetrofitInterface
 import defy.tech.chickenlover.util.SingleLiveEvent
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,6 +15,9 @@ import io.reactivex.schedulers.Schedulers
 class SplashViewModel(application: Application) : DisposableAndroidViewModel(application) {
     private val repository by lazy {
         UserRepository(application)
+    }
+    private val versionRepository by lazy {
+        VersionInfoRepository(application)
     }
     private val api by lazy {
         RetrofitInterface.create()
@@ -24,16 +29,19 @@ class SplashViewModel(application: Application) : DisposableAndroidViewModel(app
     fun login() {
         addDisposable(repository.getUserInfo()
             .subscribeOn(Schedulers.io())
+            .doOnComplete {
+                joinAsGuest()
+            }
+            .doOnSuccess {user->
+                user.guest_id?.let { guestId->
+                    loginAsGuest("mobile", user.hashed_value)
+                } ?: user.name?.let {
+                    loginAsAuto("mobile", 1, user.hashed_value)
+                }
+            }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe{ user->
-                user?.let {
-                    user.guest_id?.let { guestId->
-                        loginAsGuest("mobile", user.hashed_value)
-                    } ?: user.name?.let {
-                        loginAsAuto("mobile", 1, user.hashed_value)
-                    }
-                } ?: joinAsGuest()
-            })
+            .subscribe({
+            }, { throwable -> throwable.printStackTrace() }))
     }
 
     private fun loginAsGuest(mobile: String, hashed_value: String?) {
@@ -75,5 +83,15 @@ class SplashViewModel(application: Application) : DisposableAndroidViewModel(app
                 // ALERT
             }
         }, { throwable -> throwable.printStackTrace() }))
+    }
+
+    fun initLocalVersion() {
+        addDisposable(versionRepository.getAll()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe{list->
+                if(list.size == 0)
+                    versionRepository.insert(VersionInfo(null, 0))
+            })
     }
 }

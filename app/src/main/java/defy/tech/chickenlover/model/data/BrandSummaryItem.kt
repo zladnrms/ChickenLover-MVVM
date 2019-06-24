@@ -1,3 +1,5 @@
 package defy.tech.chickenlover.model.data
 
-data class BrandSummaryItem(val _id : Int, val name : String?)
+import org.json.JSONObject
+
+data class BrandSummaryItem(val _id : String, val name : String, var img_url : String? = null, val chicken_list : String)

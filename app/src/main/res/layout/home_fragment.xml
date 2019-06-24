@@ -45,12 +45,21 @@
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/brandList"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:minHeight="150dp"
                     android:orientation="horizontal"
                     tools:listitem="@layout/item_brand_grid"
                     app:spanCount="3"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintLeft_toLeftOf="@id/guideline_left"
+                    app:layout_constraintRight_toRightOf="@id/guideline_right"
+                    app:layout_constraintTop_toBottomOf="@id/iv_logo"/>
+            
+            <com.github.rahatarmanahmed.cpv.CircularProgressView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:cpv_color="#FA3132"
+                    android:visibility="@{viewModel.brand_progress ? View.VISIBLE : View.GONE, default= gone}"
                     app:layout_constraintLeft_toLeftOf="@id/guideline_left"
                     app:layout_constraintRight_toRightOf="@id/guideline_right"
                     app:layout_constraintTop_toBottomOf="@id/iv_logo"/>
@@ -60,6 +69,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/header_recent_review"
+                    android:textColor="#222222"
+                    android:textSize="14sp"
                     app:layout_constraintLeft_toRightOf="@id/guideline_left"
                     app:layout_constraintRight_toLeftOf="@id/guideline_right"
                     app:layout_constraintTop_toBottomOf="@id/brandList"/>
@@ -67,7 +78,7 @@
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recentReviewList"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     tools:listitem="@layout/item_recent_review"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

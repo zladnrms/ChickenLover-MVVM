@@ -2,11 +2,9 @@ package defy.tech.chickenlover.viewmodel
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel;
-import defy.tech.chickenlover.model.data.UploadImageData
+import defy.tech.chickenlover.model.data.UploadImageItem
 import java.io.File
 
 class WriteViewModel : DisposableViewModel() {
@@ -16,18 +14,18 @@ class WriteViewModel : DisposableViewModel() {
     private val _selected_type = MutableLiveData<String>().apply { value = "free" }
     val selected_type: LiveData<String> get() = _selected_type
 
-    val uploadImageList = MutableLiveData<ArrayList<UploadImageData>>().apply { value = ArrayList() }
+    val uploadImageList = MutableLiveData<ArrayList<UploadImageItem>>().apply { value = ArrayList() }
 
     fun selectType(type: String) {
         _selected_type.value = type
     }
 
-    fun addItem(item: UploadImageData) {
+    fun addItem(item: UploadImageItem) {
         uploadImageList.value?.add(item)
         uploadImageList.value = uploadImageList.value
     }
 
-    fun deleteItem(item: UploadImageData) {
+    fun deleteItem(item: UploadImageItem) {
         uploadImageList.value?.remove(item)
         uploadImageList.value = uploadImageList.value
     }

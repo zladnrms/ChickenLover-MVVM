@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -15,48 +16,56 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private var homeFragment = HomeFragment.newInstance()
+    private var boardFragment = BoardFragment.newInstance()
+    private var chatFragment = ChatFragment.newInstance()
+    private var infoFragment = InfoFragment.newInstance()
+    private var myPageFragment = MyPageFragment.newInstance()
+    private var active : Fragment = homeFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         savedInstanceState ?: let {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragment_layout, HomeFragment(), "home")
-                addToBackStack(null)
-                commit()
-            }
+            switchFragment(homeFragment, "home", string(R.string.toolbar_title_home))
         }
 
         layout_search.setOnClickListener {
-            //val intent = Intent(activity, SearchChickenInfoActivity::class.java)
-            //startActivity(intent)
+            openSearchActivity()
         }
 
         bottom_navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         bottom_navigation.setOnNavigationItemReselectedListener(onNavigationItemReselectedListener)
         bottom_navigation.selectedItemId = R.id.action_home
+
+        supportFragmentManager.beginTransaction().add(R.id.fragment_layout, homeFragment, "home").commit()
+        supportFragmentManager.beginTransaction().add(R.id.fragment_layout, boardFragment, "board").hide(boardFragment).commit()
+        supportFragmentManager.beginTransaction().add(R.id.fragment_layout, chatFragment, "chat").hide(chatFragment).commit()
+        supportFragmentManager.beginTransaction().add(R.id.fragment_layout, infoFragment, "info").hide(infoFragment).commit()
+        supportFragmentManager.beginTransaction().add(R.id.fragment_layout, myPageFragment, "mypage").hide(myPageFragment).commit()
     }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.action_home -> {
-                switchFragment(HomeFragment.newInstance(), "home", string(R.string.toolbar_title_home))
+                switchFragment(homeFragment, "home", string(R.string.toolbar_title_home))
                 return@OnNavigationItemSelectedListener true
             }
             R.id.action_board -> {
-                switchFragment(BoardFragment.newInstance(), "board", string(R.string.toolbar_title_board))
+                switchFragment(boardFragment, "board", string(R.string.toolbar_title_board))
                 return@OnNavigationItemSelectedListener true
             }
             R.id.action_chat -> {
-                switchFragment(ChatFragment.newInstance(), "chat", string(R.string.toolbar_title_chat))
+                switchFragment(chatFragment, "chat", string(R.string.toolbar_title_chat))
                 return@OnNavigationItemSelectedListener true
             }
             R.id.action_sale_info -> {
-                switchFragment(InfoFragment.newInstance(), "info", string(R.string.toolbar_title_info))
+                switchFragment(infoFragment, "info", string(R.string.toolbar_title_info))
                 return@OnNavigationItemSelectedListener true
             }
             R.id.action_profile -> {
-                switchFragment(MyPageFragment.newInstance(), "mypage", string(R.string.toolbar_title_profile))
+                switchFragment(myPageFragment, "mypage", string(R.string.toolbar_title_profile))
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -70,13 +79,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun switchFragment(fragment: Fragment, tag: String, title: String) {
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_layout, fragment, tag)
-            addToBackStack(null)
-            commit()
-        }
+        supportFragmentManager.beginTransaction().hide(active).show(fragment).commit()
+        active = fragment
         toolbar_title.text = title
-        if(title.equals("home"))
+        if(tag.equals("home"))
             layout_search.visibility = View.VISIBLE
         else
             layout_search.visibility = View.GONE
@@ -107,7 +113,7 @@ class MainActivity : AppCompatActivity() {
             selectPaths.let {
                 /*for ((index, item) in it.withIndex()) {
                     val bitmap = presenter.imgPathToBitmap(item)
-                    val data = UploadImageData(index, presenter.getFileName(item, true), item, bitmap)
+                    val data = UploadImageItem(index, presenter.getFileName(item, true), item, bitmap)
                     adapter.add(data)
                     adapter.refresh()
                 }*/
@@ -115,9 +121,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun openSearchActivity() {
+        startActivity(SearchChickenInfoActivity.starterIntent(this))
+    }
+
     companion object {
         fun starterIntent(context: Context): Intent {
             return Intent(context, MainActivity::class.java)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
+
+    override fun onResume() {
+        overridePendingTransition(0,0)
+        super.onResume()
     }
 }

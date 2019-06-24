@@ -2,6 +2,7 @@ package defy.tech.chickenlover.network
 
 import com.google.gson.GsonBuilder
 import defy.tech.chickenlover.BuildConfig
+import defy.tech.chickenlover.model.data.BrandSummaryItem
 import defy.tech.chickenlover.network.data.*
 import io.reactivex.Observable
 import io.reactivex.Single
@@ -72,7 +73,6 @@ interface RetrofitInterface {
     @POST("/chickenlover/mobile/info/get_chicken_info.php")
     fun getChickenInfo(@Field("way") way: String, @Field("brand") brand: String?, @Field("type") type: String?): Single<RandomChickenResponse>
 
-
     /* Of Board */
     @FormUrlEncoded
     @POST("/chickenlover/mobile/board/article/get_board_article_list.php")
@@ -93,4 +93,17 @@ interface RetrofitInterface {
     @FormUrlEncoded
     @POST("/chickenlover/mobile/board/comment/write_board_comment.php")
     fun writeBoardComment(@Field("type") type: String, @Field("a_id") a_id: Int?, @Field("name") name: String?, @Field("content") content: String?): Single<WriteCommentResponse>
+
+    /* Of Brand */
+    @GET("/chickenlover/mobile/info/get_chicken_brand_list.php")
+    fun getBrandList(): Single<BrandListResponse>
+
+    /* of Local Chicken Data Version Check & Update */
+    @FormUrlEncoded
+    @POST("/chickenlover/mobile/version/check_chicken_info_version.php")
+    fun checkChickenInfoVersion(@Field("mobile") mobile: String): Single<SearchChickenVersionResponse>
+
+    @POST("/chickenlover/mobile/info/get_chicken_info_for_serarch.php")
+    fun updateLocalChickenInfo(): Single<UpdateLocalChickenInfoResponse>
+
 }

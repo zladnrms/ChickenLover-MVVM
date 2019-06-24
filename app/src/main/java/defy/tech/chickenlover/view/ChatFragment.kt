@@ -35,4 +35,13 @@ class ChatFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
+    override fun onPause() {
+        super.onPause()
+        activity?.overridePendingTransition(0, 0)
+    }
+
+    override fun onResume() {
+        activity?.overridePendingTransition(0,0)
+        super.onResume()
+    }
 }

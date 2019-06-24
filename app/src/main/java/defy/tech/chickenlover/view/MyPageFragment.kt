@@ -95,4 +95,14 @@ class MyPageFragment : Fragment() {
             .setShowGif(true)                    // is show gif
             .start()
     }
+
+    override fun onPause() {
+        super.onPause()
+        activity?.overridePendingTransition(0, 0)
+    }
+
+    override fun onResume() {
+        activity?.overridePendingTransition(0,0)
+        super.onResume()
+    }
 }

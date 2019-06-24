@@ -18,4 +18,14 @@ class JoinActivity : AppCompatActivity() {
             return Intent(context, JoinActivity::class.java)
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
+
+    override fun onResume() {
+        overridePendingTransition(0,0)
+        super.onResume()
+    }
 }

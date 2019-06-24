@@ -80,4 +80,14 @@ class BoardFragment : Fragment() {
     private fun openArticleActivity(articleListItem: ArticleListItem) {
         startActivity(ArticleActivity.starterIntent(activity as MainActivity, articleListItem))
     }
+
+    override fun onPause() {
+        super.onPause()
+        activity?.overridePendingTransition(0, 0)
+    }
+
+    override fun onResume() {
+        activity?.overridePendingTransition(0,0)
+        super.onResume()
+    }
 }

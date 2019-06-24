@@ -1,23 +1,20 @@
 package defy.tech.chickenlover.adapter
 
 import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import defy.tech.chickenlover.adapter.util.ToDoItemDiffCallback
-import defy.tech.chickenlover.databinding.ItemArticleBinding
 import defy.tech.chickenlover.databinding.ItemWriteImageBinding
-import defy.tech.chickenlover.model.data.ArticleListItem
-import defy.tech.chickenlover.model.data.UploadImageData
+import defy.tech.chickenlover.model.data.UploadImageItem
 import kotlinx.android.synthetic.main.item_write_image.view.*
 import java.io.File
 
-class WriteImageListAdapter(private val onClick: (UploadImageData) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class WriteImageListAdapter(private val onClick: (UploadImageItem) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var uploadImageList : ArrayList<UploadImageData>
+    private var uploadImageList : ArrayList<UploadImageItem>
 
     init {
         uploadImageList = ArrayList()
@@ -38,7 +35,7 @@ class WriteImageListAdapter(private val onClick: (UploadImageData) -> Unit): Rec
 
     override fun getItemCount(): Int = uploadImageList.size
 
-    fun setList(list: ArrayList<UploadImageData>) {
+    fun setList(list: ArrayList<UploadImageItem>) {
         this.uploadImageList?.let {
             val diffUtil = ToDoItemDiffCallback(it, list)
             val result = DiffUtil.calculateDiff(diffUtil)
@@ -53,7 +50,7 @@ class WriteImageListAdapter(private val onClick: (UploadImageData) -> Unit): Rec
     class ViewHolder private constructor(private val binding: ItemWriteImageBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: UploadImageData, onClick: (UploadImageData) -> Unit) {
+        fun bind(item: UploadImageItem, onClick: (UploadImageItem) -> Unit) {
             binding.item = item
 
             val file = File(item.path)

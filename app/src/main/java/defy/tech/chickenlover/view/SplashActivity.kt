@@ -22,10 +22,21 @@ class SplashActivity : AppCompatActivity() {
             finish()
         })
 
+        splashViewModel.initLocalVersion()
         splashViewModel.login()
     }
 
     private fun openMainActivity() {
         startActivity(MainActivity.starterIntent(this))
+    }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
+
+    override fun onResume() {
+        overridePendingTransition(0,0)
+        super.onResume()
     }
 }
