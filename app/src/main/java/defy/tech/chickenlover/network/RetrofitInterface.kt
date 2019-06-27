@@ -48,24 +48,23 @@ interface RetrofitInterface {
     }
 
     /* Of User (include Guest) */
-    @FormUrlEncoded
-    @POST("/chickenlover/member/join_as_guest.php")
-    fun joinAsGuest(@Field("mobile") mobile: String): Single<JoinResponse>
+    @GET("/chickenlover/mobile/member/join_as_guest.php")
+    fun joinAsGuest(): Single<JoinResponse>
 
     @FormUrlEncoded
-    @POST("/chickenlover/member/login_as_guest.php")
-    fun loginAsGuest(@Field("mobile") mobile: String, @Field("hashed_value") hashed_value: String?): Single<LoginGuestResponse>
+    @POST("/chickenlover/mobile/member/login_as_guest.php")
+    fun loginAsGuest(@Field("hashed_key") hashed_key: String?): Single<LoginGuestResponse>
 
     @FormUrlEncoded
-    @POST("/chickenlover/member/join_as_normal.php")
+    @POST("/chickenlover/mobile/member/join_as_normal.php")
     fun joinAsNormal(@Field("mobile") mobile: String, @Field("login_type") login_type: Int, @Field("id") id: String, @Field("password") password: String, @Field("pre_name") pre_name: String?, @Field("next_name") next_name: String): Single<JoinResponse>
 
     @FormUrlEncoded
-    @POST("/chickenlover/member/login_as_auto.php")
-    fun loginAsAuto(@Field("mobile") mobile: String, @Field("login_type") login_type: Int, @Field("hashed_value") hashed_value: String?): Single<LoginGuestResponse>
+    @POST("/chickenlover/mobile/member/login_as_auto.php")
+    fun loginAsAuto(@Field("hashed_key") hashed_key: String?): Single<LoginGuestResponse>
 
     @FormUrlEncoded
-    @POST("/chickenlover/member/login_as_normal.php")
+    @POST("/chickenlover/mobile/member/login_as_normal.php")
     fun loginAsMember(@Field("mobile") mobile: String, @Field("login_type") login_type: Int, @Field("id") id: String?, @Field("password") password: String?): Single<LoginMemberResponse>
 
     /* Of Chicken Select Contents */
@@ -75,27 +74,35 @@ interface RetrofitInterface {
 
     /* Of Board */
     @FormUrlEncoded
-    @POST("/chickenlover/mobile/board/article/get_board_article_list.php")
-    fun getBoardArticleList(@Field("type") type: String?, @Field("index") index: Int, @Field("limit") limit: Int): Single<BoardArticleListResponse>
+    @POST("/chickenlover/mobile/board2/article/get_board_article_list.php")
+    fun getBoardArticleList(@Field("type") type: Int, @Field("index") index: Int, @Field("limit") limit: Int): Single<BoardArticleListResponse>
 
     @FormUrlEncoded
-    @POST("/chickenlover/mobile/board/article/get_board_article.php")
-    fun getBoardArticle(@Field("type") type: String, @Field("a_id") a_id: Int?, @Field("title") title: String?): Single<BoardArticleResponse>
+    @POST("/chickenlover/mobile/board2/article/get_board_article.php")
+    fun getBoardArticle(@Field("type") type: Int, @Field("article_id") a_id: Int?, @Field("title") title: String?, @Field("name") name: String?): Single<BoardArticleResponse>
 
     @FormUrlEncoded
-    @POST("/chickenlover/mobile/board/comment/get_board_comment.php")
-    fun getBoardComment(@Field("type") type: String, @Field("c_id") comment_id: Int?): Single<BoardCommentResponse>
+    @POST("/chickenlover/mobile/board2/comment/get_board_comment.php")
+    fun getBoardComment(@Field("article_id") article_id: Int?): Single<BoardCommentResponse>
 
     @Multipart
-    @POST("/chickenlover/mobile/board/article/write_board_article.php")
-    fun writeBoardArticle(@Part("type") type: RequestBody, @Part("name") name: RequestBody, @Part("title") title: RequestBody, @Part("content") content: RequestBody, @Part parts : List<MultipartBody.Part>): Observable<WriteArticleResponse>
+    @POST("/chickenlover/mobile/board2/article/write_board_article.php")
+    fun writeBoardArticle(@Part("type") type: RequestBody?, @Part("hashed_key") hashed_key: RequestBody, @Part("title") title: RequestBody, @Part("content") content: RequestBody, @Part parts : List<MultipartBody.Part>): Single<WriteArticleResponse>
 
     @FormUrlEncoded
-    @POST("/chickenlover/mobile/board/comment/write_board_comment.php")
-    fun writeBoardComment(@Field("type") type: String, @Field("a_id") a_id: Int?, @Field("name") name: String?, @Field("content") content: String?): Single<WriteCommentResponse>
+    @POST("/chickenlover/mobile/board2/comment/write_board_comment.php")
+    fun writeBoardComment(@Field("article_id") article_id: Int?, @Field("hashed_key") hashed_key: String?, @Field("content") content: String?): Single<WriteCommentResponse>
+
+    @FormUrlEncoded
+    @POST("/chickenlover/mobile/board2/like/trigger_board_like.php")
+    fun triggerBoardLike(@Field("article_id") article_id: Int?, @Field("hashed_key") hashed_key: String?): Single<TriggerBoardLikeResponse>
+
+    @FormUrlEncoded
+    @POST("/chickenlover/mobile/board2/like/get_board_like.php")
+    fun getBoardLike(@Field("article_id") article_id: Int?): Single<BoardLikeResponse>
 
     /* Of Brand */
-    @GET("/chickenlover/mobile/info/get_chicken_brand_list.php")
+    @GET("/chickenlover/mobile/info/brand/get_chicken_brand_list.php")
     fun getBrandList(): Single<BrandListResponse>
 
     /* of Local Chicken Data Version Check & Update */

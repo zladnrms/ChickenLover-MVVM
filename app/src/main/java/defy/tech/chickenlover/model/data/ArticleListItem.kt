@@ -4,9 +4,11 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ArticleListItem(val _id : String,
-                           val name : String,
-                           val title : String,
-                           var img_exist : Boolean,
-                           val create_date : String,
-                           var comment_amount : String) : Parcelable
+data class ArticleListItem(var _id : Int = 0,
+                           var type : Int = 0,
+                           var writer : String? = null,
+                           var title : String? = null,
+                           var img_exist : Boolean = false,
+                           var write_date : String? = null,
+                           var comment_amount : Int = 0,
+                           var like_amount : Int = 0) : Parcelable

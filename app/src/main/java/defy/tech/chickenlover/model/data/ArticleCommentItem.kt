@@ -1,8 +1,7 @@
 package defy.tech.chickenlover.model.data
 
-data class ArticleCommentItem(val _id : Int,
-                              val name : String,
-                              val content : String,
-                              var thumbs_up : Array<String>,
-                              val write_date : String,
-                              var invisible : Int)
+data class ArticleCommentItem(val _id : Int = 0,
+                              val writer : String? = null,
+                              val content : String? = null,
+                              val write_date : String? = null,
+                              var like_amount : Int = 0)

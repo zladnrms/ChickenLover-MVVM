@@ -49,7 +49,7 @@ class ArticleCommentListAdapter(private val onClick: (ArticleCommentItem) -> Uni
 
         fun bind(articleCommentItem: ArticleCommentItem, onClick: (ArticleCommentItem) -> Unit) {
             binding.item = articleCommentItem
-            itemView.tv_profile.text = articleCommentItem.name[0].toString()
+            itemView.tv_profile.text = articleCommentItem.writer?.let { it[0].toString() }
             itemView.setOnClickListener {
                 onClick(articleCommentItem)
             }

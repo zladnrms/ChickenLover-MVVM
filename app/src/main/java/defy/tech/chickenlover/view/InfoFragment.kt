@@ -16,7 +16,7 @@ class InfoFragment : Fragment() {
         fun newInstance() = InfoFragment()
     }
 
-    private lateinit var viewModel: InfoViewModel
+    private lateinit var infoViewModel: InfoViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +27,7 @@ class InfoFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(InfoViewModel::class.java)
+        infoViewModel = ViewModelProviders.of(this).get(InfoViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

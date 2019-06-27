@@ -145,7 +145,7 @@
                 </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_thumbs_up"
+                        android:id="@+id/btn_like_up"
                         android:layout_width="wrap_content"
                         android:minWidth="100dp"
                         android:layout_height="wrap_content"
@@ -168,7 +168,7 @@
                         android:background="#000000"
                         android:text="GOOGLE ADMOBS"
                         android:textColor="#FFFFFF"
-                        app:layout_constraintTop_toBottomOf="@id/btn_thumbs_up"
+                        app:layout_constraintTop_toBottomOf="@id/btn_like_up"
                         android:layout_marginTop="20dp">
 
                 </Button>
@@ -245,7 +245,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
-                    android:onClick="@{()->viewModel.writeBoardComment()}"
+                    android:onClick="@{()->viewModel.writeArticleComment()}"
                     app:layout_constraintBaseline_toBaselineOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>
 

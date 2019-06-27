@@ -41,7 +41,7 @@
                 android:id="@+id/iv_chicken_img"
                 android:layout_width="120dp"
                 android:layout_height="75dp"
-                app:bind_image="@{viewModel.setImage(item.type_number)}"
+                app:bind_image="@{item.type_number}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="@id/guideline_left"

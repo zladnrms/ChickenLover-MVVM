@@ -21,20 +21,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline_left_percent"
-                    app:layout_constraintGuide_percent="0.2"
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline_right_percent"
-                    app:layout_constraintGuide_percent="0.8"
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
             <TextView
                     android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
@@ -48,46 +34,6 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/layout_search"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:background="@drawable/round_corner_background2"
-                    app:layout_constraintLeft_toRightOf="@id/guideline_left_percent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/guideline_right_percent">
-
-                <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:text="치킨 검색"
-                        android:textSize="13sp"
-                        android:textColor="#ADADAD"
-                        android:gravity="center_vertical"
-                        android:background="#DFDFDF"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="@id/iv_search"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-
-                <ImageView
-                        android:id="@+id/iv_search"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_search_gray_24dp"
-                        android:gravity="center_vertical"
-                        android:background="#DFDFDF"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

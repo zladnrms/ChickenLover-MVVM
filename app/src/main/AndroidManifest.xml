@@ -25,18 +25,34 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
-        <activity android:name=".view.SearchChickenInfoActivity">
+        <activity android:name=".view.BrandInfoActivity">
         </activity>
-        <activity android:name=".view.WriteActivity">
+        <activity
+                android:name=".view.ChickenInfoActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/SharedElementTransitionTheme">
         </activity>
-        <activity android:name=".view.JoinActivity">
+        <activity
+                android:name=".view.SearchChickenInfoActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/SharedElementTransitionTheme">
+        </activity>
+        <activity
+                android:name=".view.WriteActivity"
+                android:screenOrientation="portrait">
+        </activity>
+        <activity
+                android:name=".view.JoinActivity"
+                android:screenOrientation="portrait">
         </activity>
 
         <meta-data
                 android:name="com.google.android.actions"
                 android:resource="@xml/splash_layout"/>
 
-        <activity android:name=".view.ArticleActivity">
+        <activity
+                android:name=".view.ArticleActivity"
+                android:screenOrientation="portrait">
         </activity>
         <activity
                 android:name=".view.MainActivity"

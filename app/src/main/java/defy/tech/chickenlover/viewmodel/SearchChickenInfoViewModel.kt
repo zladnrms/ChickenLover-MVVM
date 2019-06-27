@@ -93,19 +93,4 @@ class SearchChickenInfoViewModel(application: Application) : DisposableAndroidVi
                 chickenInfoList.value = chickenInfoList.value
             })
     }
-
-    fun setImage(type_number: Int): Int {
-        when(type_number)
-        {
-            0 -> return R.drawable.fried
-            1 -> return R.drawable.seasoned_fried
-            2 -> return R.drawable.cheese_fried
-            3 -> return R.drawable.soy_fried
-            4 -> return R.drawable.green_onion_fried
-            5 -> return R.drawable.garlic_fried
-            6 -> return R.drawable.peoper_fried
-            else -> return R.drawable.fried
-        }
-        return R.drawable.fried
-    }
 }

@@ -46,11 +46,23 @@ class WriteActivity : AppCompatActivity() {
             writeImageListAdapter.setList(it)
         })
 
+        writeViewModel.navigateToFinishCall.observe(this, Observer {
+            finishActivity()
+        })
+
         iv_upload.setOnClickListener {
             openGalaryWithPermissionCheck()
         }
 
+        btn_submit.setOnClickListener {
+            writeViewModel.write(et_title.text.toString(), et_content.text.toString())
+        }
+
         setSpinner()
+    }
+
+    private fun finishActivity() {
+        finish()
     }
 
     private fun setSpinner() {

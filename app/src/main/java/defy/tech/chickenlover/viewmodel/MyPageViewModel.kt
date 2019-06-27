@@ -26,6 +26,7 @@ class MyPageViewModel(application: Application) : DisposableAndroidViewModel(app
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError{ Log.d("getUserInfo","onError") }
             .doOnSubscribe { }
+
             .doOnSuccess { Log.d("getUserInfo","onSuccess") }
             .doOnComplete { Log.d("getUserInfo","onComplete") }
             .subscribe{ user->

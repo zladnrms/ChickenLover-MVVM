@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.home_fragment.*
 class HomeFragment : Fragment() {
 
     private lateinit var binding: HomeFragmentBinding
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var homeViewModel: HomeViewModel
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private lateinit var brandListAdapter: BrandListAdapter
     private lateinit var reviewListAdapter: RecentReviewListAdapter
@@ -59,8 +59,8 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        binding.viewModel = viewModel
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        binding.viewModel = homeViewModel
         binding.lifecycleOwner = this
 
         val mGridLayoutManager = GridLayoutManager(activity, 3)
@@ -82,15 +82,19 @@ class HomeFragment : Fragment() {
             adapter = reviewListAdapter
         }
 
-        viewModel.brandList.observe(this, Observer {
+        homeViewModel.brandList.observe(this, Observer {
             brandListAdapter.setList(it)
         })
+
+        layout_search.setOnClickListener {
+            openSearchActivity()
+        }
 
         displayBrandList()
     }
 
     private fun displayBrandList() {
-        viewModel.getBrandList()
+        homeViewModel.getBrandList()
     }
 
     override fun onPause() {
@@ -101,5 +105,9 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         activity?.overridePendingTransition(0,0)
         super.onResume()
+    }
+
+    private fun openSearchActivity() {
+        startActivity(SearchChickenInfoActivity.starterIntent(activity as MainActivity))
     }
 }

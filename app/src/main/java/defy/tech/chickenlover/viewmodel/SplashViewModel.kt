@@ -33,10 +33,9 @@ class SplashViewModel(application: Application) : DisposableAndroidViewModel(app
                 joinAsGuest()
             }
             .doOnSuccess {user->
-                user.guest_id?.let { guestId->
-                    loginAsGuest("mobile", user.hashed_value)
-                } ?: user.name?.let {
-                    loginAsAuto("mobile", 1, user.hashed_value)
+                when(user.type) {
+                    0 -> user.hashed_key?.let { loginAsGuest(it) }
+                    1 -> user.hashed_key?.let { loginAsAuto(it) }
                 }
             }
             .observeOn(AndroidSchedulers.mainThread())
@@ -44,8 +43,8 @@ class SplashViewModel(application: Application) : DisposableAndroidViewModel(app
             }, { throwable -> throwable.printStackTrace() }))
     }
 
-    private fun loginAsGuest(mobile: String, hashed_value: String?) {
-        addDisposable(api.loginAsGuest(mobile, hashed_value)
+    private fun loginAsGuest(hashed_key: String?) {
+        addDisposable(api.loginAsGuest(hashed_key)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ response ->
@@ -58,12 +57,12 @@ class SplashViewModel(application: Application) : DisposableAndroidViewModel(app
     }
 
     private fun joinAsGuest() {
-        addDisposable(api.joinAsGuest("post")
+        addDisposable(api.joinAsGuest()
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ response ->
             if (response.result.equals("success")) {
-                val user = User(null, 0, 0, response.hashed_value, response.guest_id, response.name, null, null)
+                val user = User(null, 0, response.hashed_key, response.name, null, null)
                 repository.insert(user)
                 _navigateToActivityCall.call()
             } else {
@@ -72,8 +71,8 @@ class SplashViewModel(application: Application) : DisposableAndroidViewModel(app
         }, { throwable -> throwable.printStackTrace() }))
     }
 
-    private fun loginAsAuto(mobile: String, loginType: Int, hashed_value: String?) {
-        addDisposable(api.loginAsAuto(mobile, loginType, hashed_value)
+    private fun loginAsAuto(hashed_key: String?) {
+        addDisposable(api.loginAsAuto(hashed_key)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ response ->

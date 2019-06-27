@@ -12,14 +12,8 @@ data class User(
     @ColumnInfo(name = "type")
     var type: Int,
 
-    @ColumnInfo(name = "uid")
-    var uid: Int,
-
-    @ColumnInfo(name = "hashed_value")
-    var hashed_value: String?,
-
-    @ColumnInfo(name = "guest_id")
-    var guest_id: String?,
+    @ColumnInfo(name = "hashed_key")
+    var hashed_key: String?,
 
     @ColumnInfo(name = "name")
     var name: String?,
@@ -30,5 +24,5 @@ data class User(
     @ColumnInfo(name = "login_password")
     var login_password: String?
 ){
-    constructor(): this(null,0, 0, null, null, null, null, null)
+    constructor(): this(null,0, null, null, null, null)
 }

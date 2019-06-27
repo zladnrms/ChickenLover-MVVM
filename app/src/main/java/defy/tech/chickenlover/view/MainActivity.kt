@@ -31,10 +31,6 @@ class MainActivity : AppCompatActivity() {
             switchFragment(homeFragment, "home", string(R.string.toolbar_title_home))
         }
 
-        layout_search.setOnClickListener {
-            openSearchActivity()
-        }
-
         bottom_navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         bottom_navigation.setOnNavigationItemReselectedListener(onNavigationItemReselectedListener)
         bottom_navigation.selectedItemId = R.id.action_home
@@ -82,10 +78,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().hide(active).show(fragment).commit()
         active = fragment
         toolbar_title.text = title
-        if(tag.equals("home"))
-            layout_search.visibility = View.VISIBLE
-        else
-            layout_search.visibility = View.GONE
     }
 
     override fun onBackPressed() {
@@ -119,10 +111,6 @@ class MainActivity : AppCompatActivity() {
                 }*/
             }
         }
-    }
-
-    private fun openSearchActivity() {
-        startActivity(SearchChickenInfoActivity.starterIntent(this))
     }
 
     companion object {

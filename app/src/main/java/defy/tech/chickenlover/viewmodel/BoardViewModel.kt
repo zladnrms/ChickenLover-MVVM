@@ -20,7 +20,7 @@ class BoardViewModel : DisposableViewModel() {
     private val limit = 15
     private var index = 0
 
-    val board_types = listOf("자유게시판","실시간정보")
+    val board_types = listOf("자유게시판", "실시간정보")
 
     private val _selected_type = MutableLiveData<String>().apply { value = "free" }
     val selected_type: LiveData<String> get() = _selected_type
@@ -35,36 +35,47 @@ class BoardViewModel : DisposableViewModel() {
     }
 
     fun openWriteActivity() {
-        Log.d("openWriteActivity", "called")
         _navigateToActivityCall.call()
     }
 
     fun getArticleList() {
 
         var type = selected_type.value
+        var send_type = 0
 
-        if(type.equals("자유게시판"))
-            type = "free"
+        if (type.equals("자유게시판"))
+            send_type = 0
 
-        if(type.equals("실시간정보"))
-            type = "info"
+        if (type.equals("실시간정보"))
+            send_type = 1
 
-        addDisposable(api.getBoardArticleList(type, index, limit)
+        addDisposable(api.getBoardArticleList(send_type, index, limit)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {  }
-            .subscribe{ response->
-                if(response.result.equals("success"))
-                {
+            .doOnSubscribe { }
+            .doOnError {
+                Log.d("에러 등장!", "Line57")
+                it.printStackTrace()
+            }
+            .subscribe { response ->
+                if (response.result.equals("success")) {
                     response.result_array?.let {
-                        for(item in it)
-                        {
+                        for (item in it) {
                             val item_obj = JSONObject(item)
                             var img_exist = false
-                            if(!item_obj.get("img_url").toString().equals("null"))
+                            if (!item_obj.get("img_url").toString().equals("null"))
                                 img_exist = true
 
-                            val data = ArticleListItem(item_obj.get("_id") as String, item_obj.get("name") as String, item_obj.get("title") as String, img_exist, item_obj.get("create_date") as String, item_obj.get("comment_amount") as String)
+                            val data = ArticleListItem(
+                                item_obj.getInt("_id"),
+                                item_obj.getInt("type"),
+                                item_obj.getString("writer"),
+                                item_obj.getString("title"),
+                                img_exist,
+                                item_obj.getString("write_date"),
+                                item_obj.getInt("comment_amount"),
+                                item_obj.getInt("like_amount")
+                            )
                             articleList.value?.add(data)
                             articleList.value = articleList.value
                         }
@@ -83,7 +94,7 @@ class BoardViewModel : DisposableViewModel() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                val layoutManager =  list.layoutManager as LinearLayoutManager
+                val layoutManager = list.layoutManager as LinearLayoutManager
                 val totalItemCount = layoutManager.itemCount
                 val lastVisible = layoutManager.findLastCompletelyVisibleItemPosition()
 

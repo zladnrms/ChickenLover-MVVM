@@ -1,6 +1,7 @@
 package defy.tech.chickenlover.viewmodel
 
 import android.app.Application
+import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
@@ -46,6 +47,10 @@ class HomeViewModel(application: Application) : DisposableAndroidViewModel(appli
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess { brand_progress.set(true) }
             .doOnDispose { brand_progress.set(false) }
+            .doOnError {
+                Log.d("에러 등장!", "Line57")
+                it.printStackTrace()
+            }
             .subscribe { response ->
                 if(response.result.equals("success")) {
                     response.result_array.let {

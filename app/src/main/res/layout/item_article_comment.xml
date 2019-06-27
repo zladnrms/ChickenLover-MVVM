@@ -53,7 +53,7 @@
                     android:layout_gravity="center"
                     android:textColor="#222222"
                     android:textSize="13sp"
-                    android:text="@{item.name}"
+                    android:text="@{item.writer}"
                     android:layout_marginLeft="8dp"
                     app:layout_constraintTop_toTopOf="@id/tv_profile"
                     app:layout_constraintBottom_toBottomOf="@id/tv_profile"

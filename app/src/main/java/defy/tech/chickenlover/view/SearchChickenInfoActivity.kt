@@ -29,7 +29,7 @@ class SearchChickenInfoActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         searchChickenInfoListAdapter = SearchChickenInfoListAdapter { item ->
-
+            openChickenInfoActivity()
         }
         searchList.apply {
             adapter = searchChickenInfoListAdapter
@@ -45,6 +45,10 @@ class SearchChickenInfoActivity : AppCompatActivity() {
         })
 
         searchChickenInfoViewModel.checkVersion()
+    }
+
+    private fun openChickenInfoActivity() {
+        startActivity(ChickenInfoActivity.starterIntent(this))
     }
 
     private fun displayChickenList() {

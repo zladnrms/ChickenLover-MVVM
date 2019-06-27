@@ -60,7 +60,6 @@ class BoardFragment : Fragment() {
         })
 
         boardViewModel.setRecyclerViewScrollListener(articleList)
-
         boardViewModel.getArticleList()
 
         setSpinner()

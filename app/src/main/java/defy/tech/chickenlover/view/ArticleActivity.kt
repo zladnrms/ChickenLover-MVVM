@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -46,42 +47,53 @@ class ArticleActivity : AppCompatActivity() {
             hasFixedSize()
         }
 
-        articleViewModel.articleListItem.observe(this, Observer {
-            articleViewModel.getArticleInfo()
-        })
-        articleViewModel.articleItem.observe(this, Observer {
-            setContents(it)
-            articleViewModel.getArticleComment()
-        })
-        articleViewModel.articleCommentList.observe(this, Observer {
-            articleCommentListAdapter.setList(it)
-        })
+        articleViewModel.apply {
+            articleListItem.observe(this@ArticleActivity, Observer {
+                articleViewModel.getArticleInfo()
+            })
+            articleItem.observe(this@ArticleActivity, Observer {
+                setContents(it)
+                articleViewModel.getArticleComment()
+                articleViewModel.getArticleLike()
+            })
+            articleCommentList.observe(this@ArticleActivity, Observer {
+                articleCommentListAdapter.setList(it)
+            })
+            articleLikeList.observe(this@ArticleActivity, Observer {
+                btn_like_up.text = it.size.toString()
+            })
+            navigateToToastCall.observe(this@ArticleActivity, Observer {
+                toastmessage()
+            })
+        }
+
+        btn_like_up.setOnClickListener {
+            articleViewModel.triggerArticleLike()
+        }
 
         setDataFromIntent()
     }
 
+    private fun toastmessage() {
+        Toast.makeText(this@ArticleActivity, "이미 추천하신 글입니다!", Toast.LENGTH_LONG).show()
+    }
+
     private fun setContents(articleItem: ArticleItem) {
         articleItem.let {
-            it.title.let {
+            it.title?.let {
                 tv_title.text = it
             }
-            it.writer.let {
+            it.writer?.let {
                 tv_writer.text = it
                 tv_profile.text = it[0].toString()
             }
-            it.content.let {
+            it.content?.let {
                 setContents(it)
             }
             it.img_url?.let{
                 setImages(it)
             }
-            it.thumbs.let{
-                setThumbs(it)
-            }
-            it.comment_id.let {
-            }
         }
-
     }
 
     private fun setContents(content: String) {
@@ -98,12 +110,6 @@ class ArticleActivity : AppCompatActivity() {
             layout.setImageView(item)
             layout_img.addView(layout)
         }
-    }
-
-    private fun setThumbs(list: String) {
-        val thumbsList = JSONObject(list)
-        val thumbsUpList = thumbsList.get("thumbs_up") as JSONArray
-        btn_thumbs_up.text = thumbsUpList.length().toString()
     }
 
     private fun setDataFromIntent() {
